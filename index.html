@@ -1972,8 +1972,6 @@ function recalcAll(){
   }
 })();
 </script>
-</body>
-</html>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -1986,6 +1984,45 @@ const supabase = supabase.createClient(
 <script>
 async function testarConexao() {
   const { data, error } = await supabase
+    .from('usuarios')
+    .select('*')
+
+  console.log('DATA:', data)
+  console.log('ERROR:', error)
+}
+
+testarConexao()
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  'https://rxmfafapkmyvswdeaxgu.supabase.co',
+  'sb_publishable_Q0wAaL6_2GrES9DxyFLqSQ_Yy91KZnI'
+)
+
+async function testarConexao() {
+  const { data, error } = await supabaseClient
+    .from('usuarios')
+    .select('*')
+
+  console.log('DATA:', data)
+  console.log('ERROR:', error)
+}
+
+testarConexao()
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  'https://rxmfafapkmyvswdeaxgu.supabase.co',
+  'sb_publishable_Q0wAaL6_2GrES9DxyFLqSQ_Yy91KZnI'
+)
+
+async function testarConexao() {
+  const { data, error } = await supabaseClient
     .from('usuarios')
     .select('*')
 
