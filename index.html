@@ -6,14 +6,23 @@
 </head>
 <body>
 
-<h2>Login</h2>
+<!-- 🔐 LOGIN -->
+<div id="login">
+  <h2>Login</h2>
 
-<input type="email" id="email" placeholder="Seu email"><br><br>
-<input type="password" id="senha" placeholder="Sua senha"><br><br>
+  <input type="email" id="email" placeholder="Seu email"><br><br>
+  <input type="password" id="senha" placeholder="Sua senha"><br><br>
 
-<button onclick="login()">Entrar</button>
+  <button onclick="login()">Entrar</button>
 
-<p id="status"></p>
+  <p id="status"></p>
+</div>
+
+<!-- ⚙️ SISTEMA (ESCONDIDO) -->
+<div id="sistema" style="display:none;">
+  <h1>Bem-vindo ao sistema BESS ⚡</h1>
+  <p>Aqui vai entrar seu dashboard depois</p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -48,7 +57,9 @@ async function login() {
     return
   }
 
-  document.getElementById('status').innerText = "Login OK ✅"
+  // ✅ LOGIN OK → libera sistema
+  document.getElementById('login').style.display = 'none'
+  document.getElementById('sistema').style.display = 'block'
 }
 </script>
 
