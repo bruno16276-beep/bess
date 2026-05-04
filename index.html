@@ -2,11 +2,18 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Teste BESS</title>
+  <title>Login BESS</title>
 </head>
 <body>
 
-<h1>Teste de conexão com Supabase</h1>
+<h2>Login</h2>
+
+<input type="email" id="email" placeholder="Seu email"><br><br>
+<input type="password" id="senha" placeholder="Sua senha"><br><br>
+
+<button onclick="login()">Entrar</button>
+
+<p id="status"></p>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -16,22 +23,33 @@ const supabaseClient = window.supabase.createClient(
   'sb_publishable_Q0wAaL6_2GrES9DxyFLqSQ_Yy91KZnI'
 )
 
-async function testarConexao() {
+async function login() {
+  const email = document.getElementById('email').value
+  const senha = document.getElementById('senha').value
+
   const { data, error } = await supabaseClient
     .from('usuarios')
     .select('*')
+    .eq('email', email)
+    .single()
 
-  console.log('DATA:', data)
-  console.log('ERROR:', error)
-
-  if (error) {
-    document.body.innerHTML += "<p>Erro ao conectar</p>"
-  } else {
-    document.body.innerHTML += "<p>Conexão OK</p>"
+  if (error || !data) {
+    document.getElementById('status').innerText = "Usuário não encontrado"
+    return
   }
-}
 
-testarConexao()
+  if (data.senha !== senha) {
+    document.getElementById('status').innerText = "Senha incorreta"
+    return
+  }
+
+  if (!data.ativo) {
+    document.getElementById('status').innerText = "Acesso expirado"
+    return
+  }
+
+  document.getElementById('status').innerText = "Login OK ✅"
+}
 </script>
 
 </body>
