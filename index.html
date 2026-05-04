@@ -20,7 +20,7 @@
 
 <!-- ⚙️ SISTEMA (ESCONDIDO) -->
 <div id="sistema" style="display:none;">
-  <div class="app">
+<div class="app">
   <!-- TOPBAR -->
   <div class="topbar no-print">
     <div class="brand">
@@ -1804,8 +1804,6 @@ function recalcAll(){
   }
 })();
 </script>
-</body>
-</html>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1841,7 +1839,12 @@ async function login() {
     return
   }
 
-  // ✅ LOGIN OK → REDIRECIONA
-  window.location.href = "dashboard.html"
+  // ✅ LOGIN OK → mostra sistema
+  document.getElementById('status').innerText = "Login OK ✅"
+  document.getElementById('login').style.display = 'none'
+  document.getElementById('sistema').style.display = 'block'
 }
 </script>
+
+</body>
+</html>
