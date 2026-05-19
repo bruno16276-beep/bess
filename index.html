@@ -38,40 +38,36 @@ button{
   border:none;
   border-radius:6px;
 }
-
-h2{
-  margin-top:0;
-}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="login" class="box">
+
   <h2>Login</h2>
 
   <input id="email" type="email" placeholder="email">
-  
+
   <input id="senha" type="password" placeholder="senha">
 
-  <button onclick="login()">
+  <button id="btnLogin">
     Entrar
   </button>
 
   <p id="status"></p>
+
 </div>
 
-<!-- DASH -->
 <div id="app" class="box" style="display:none">
 
   <h2>Calcular BESS</h2>
 
-  <input id="consumo_ponta" placeholder="Consumo ponta (kWh)">
+  <input id="consumo_ponta" placeholder="Consumo ponta">
 
-  <input id="tarifa_ponta" placeholder="Tarifa ponta">
+  <input id="tarifa_ponta" placeholder="Tarifa">
 
-  <button onclick="calcular()">
+  <button id="btnCalc">
     Calcular
   </button>
 
@@ -81,38 +77,55 @@ h2{
 
 <script>
 
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   'https://rxmfafapkmyvswdeaxgu.supabase.co',
   'sb_publishable_Q0wAaL6_2GrES9DxyFLqSQ_Yy91KZnI'
 );
 
-// LOGIN
+document
+  .getElementById('btnLogin')
+  .addEventListener('click', login);
+
+document
+  .getElementById('btnCalc')
+  .addEventListener('click', calcular);
+
 async function login(){
 
+  alert("BOTÃO FUNCIONOU");
+
   const email = document.getElementById('email').value;
+
   const senha = document.getElementById('senha').value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: senha
-  });
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
 
-  console.log("LOGIN DATA:", data);
-  console.log("LOGIN ERROR:", error);
+  console.log(data);
+  console.log(error);
 
   if(error){
-    document.getElementById('status').innerText = error.message;
+
+    alert(error.message);
+
+    document.getElementById('status').innerText =
+      error.message;
+
     return;
   }
 
-  document.getElementById('status').innerText = "";
+  alert("LOGIN OK");
 
-  document.getElementById('login').style.display = 'none';
+  document.getElementById('login').style.display =
+    'none';
 
-  document.getElementById('app').style.display = 'block';
+  document.getElementById('app').style.display =
+    'block';
 }
 
-// CALCULAR VIA SUPABASE
 async function calcular(){
 
   const consumo = parseFloat(
@@ -123,18 +136,18 @@ async function calcular(){
     document.getElementById('tarifa_ponta').value
   );
 
-  const { data, error } = await supabase.rpc('calcular_bess', {
-    consumo_ponta: consumo,
-    tarifa_ponta: tarifa
-  });
+  const { data, error } =
+    await supabaseClient.rpc('calcular_bess', {
+      consumo_ponta: consumo,
+      tarifa_ponta: tarifa
+    });
 
-  console.log("RPC DATA:", data);
-  console.log("RPC ERROR:", error);
+  console.log(data);
+  console.log(error);
 
   if(error){
 
-    document.getElementById('resultado').innerText =
-      "Erro no cálculo";
+    alert("ERRO RPC");
 
     return;
   }
